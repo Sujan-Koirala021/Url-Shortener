@@ -7,16 +7,26 @@ import tkinter.font as font
 root = Tk()
 #   Window configurations
 root.title("Url Shortener")
-root.geometry('400x300')
+root.geometry('400x350')
 
 #   Resize to other screen size set to false
 root.resizable(False, False)
 
-
+#   Shorten url when button pressed using pyshorteners module
 def shortenUrl():
-    urlName = 'https://www.youtube.com/watch?v=oBi16YJjf8w&ab_channel=Codemy.com'
+    #   Delete final url textbox
+    finalUrl.delete(1.0, END)
+    
+    #   Accesing original url through entry
+    urlName = originalUrl.get()
+
+    #   Pyshorteners Mechanism to shorten urls
     s = pyshorteners.Shortener()
-    print(s.tinyurl.short(urlName))
+    shortUrl = s.tinyurl.short(urlName)
+    
+    #   Display shortened link to textbox   
+    finalUrl.insert(END, shortUrl)
+    
 
 #   Return font attributes to apply
 def getFont(fontName='Helvetica', fontSize=14, fontWeight='normal'):    #   Function with default arguments
@@ -24,23 +34,27 @@ def getFont(fontName='Helvetica', fontSize=14, fontWeight='normal'):    #   Func
     return myFont
 
 #   Make label and display in screen
-myLabel = Label(root, text = "Url Shortener", pady =10, padx = 40)
-myLabel['font'] = getFont('Helvetica', 24, "bold")
-myLabel.grid(row = 0, column = 0)
+headerLabel = Label(root, text = "Url Shortener", pady =10, padx = 40)
+headerLabel['font'] = getFont('Helvetica', 24, "bold")
+headerLabel.grid(row = 0, column = 0)
 
 #   Make text box to paste link to be shortened
 
-linkTextbox = Text(root, width = 40, height = 5)
-linkTextbox.grid(row =1, column = 0, padx=30)
+originalUrl = Entry(root, width=30)
+originalUrl['font']= getFont("Helvetica", 16, "normal")
+originalUrl.grid(row =1, column = 0, padx=5)
 
 #   Make shorten button
 
-shortenButton = Button(root, text = "Shorten", command = shortenUrl)
+shortenButton = Button(root, text = "Shorten Link", command = shortenUrl)
+shortenButton['font'] = getFont("Helvetica", 12, "normal")
 shortenButton.grid(row = 3, column = 0, padx = 50, pady = 20)
 
+#   Display shortened url
 
+finalUrl = Text(root,width = 40, height = 5)
+finalUrl.grid(row = 4, column = 0 , padx = 30)
 
-# shortenUrl('https://www.youtube.com/watch?v=oBi16YJjf8w&ab_channel=Codemy.com')
 root.mainloop()
 
 
