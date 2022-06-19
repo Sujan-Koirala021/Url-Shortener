@@ -8,25 +8,28 @@ root = Tk()
 #   Window configurations
 root.title("Url Shortener")
 root.geometry('400x350')
+root.configure(background="#0e1724")
 
 #   Resize to other screen size set to false
 root.resizable(False, False)
 
 #   Shorten url when button pressed using pyshorteners module
 def shortenUrl():
-    #   Delete final url textbox
-    finalUrl.delete(1.0, END)
+    #   Delete final url label
+    finalUrl.config(text = "")              #   Delete existing text in label
     
     #   Accesing original url through entry
     urlName = originalUrl.get()
 
+    #   Exception Handling
     try:
         #   Pyshorteners Mechanism to shorten urls
         s = pyshorteners.Shortener()
         shortUrl = s.tinyurl.short(urlName)
         
         #   Display shortened link to textbox   
-        finalUrl.insert(END, shortUrl)
+        finalUrl.configure(text=shortUrl)
+        print(shortUrl)
 
     except Exception as e:
         messagebox.showerror("Url Shortener", e)
@@ -34,14 +37,14 @@ def shortenUrl():
 #   Reset or clear previous activity
 def reset():
     originalUrl.delete(0, "end")    #   Delete existing entry
-    finalUrl.delete(1.0, END)       #   Delete existing text in textbox
+    finalUrl.config(text = "Your short url appears here.")      #   Delete existing text in label
     
 def copySuccess():
     messagebox.showinfo("Copy Success", "Copied Successfully!!")    #   Show success message box
     clip = Tk()                                                     #   Create small window
     clip.withdraw()                                                 #   Withdraw value
     clip.clipboard_clear()                                          #   Clear clipboard in Tk clipboard
-    clip.clipboard_append(finalUrl.get(1.0, END))                   #   Get shortened url copied to clipboard
+    clip.clipboard_append(finalUrl.cget("text"))                    #   Get value from label and get shortened url copied to clipboard
     clip.destroy()                                                  #   Destroy this and all descendent widgets
     
     #   Now you can paste it anywhere
@@ -53,33 +56,36 @@ def getFont(fontName='Helvetica', fontSize=14, fontWeight='normal'):    #   Func
     return myFont
 
 #   Make label and display in screen
-headerLabel = Label(root, text = "Url Shortener", pady =10, padx = 40)
+headerLabel = Label(root,width=18, text = "Url Shortener", pady =10, padx = 40, bg = "#2e3856")
 headerLabel['font'] = getFont('Helvetica', 24, "bold")
 headerLabel.grid(row = 0, column = 0)
 
 #   Make text box to paste link to be shortened
 originalUrl = Entry(root, width=30)
 originalUrl['font']= getFont("Helvetica", 16, "normal")
-originalUrl.grid(row =1, column = 0, padx=5)
+originalUrl.place(x = 20, y =90)
 
 #   Make reset button
 resetButton = Button(root, text = "Reset", command = reset)
 resetButton['font'] = getFont("Helvetica", 12, "normal")
-resetButton.grid(row = 6, column = 0, pady = 20)
+resetButton.place(x = 20, y = 130)
 
 #   Make shorten button
 shortenButton = Button(root, text = "Shorten", command = shortenUrl)
 shortenButton['font'] = getFont("Helvetica", 12, "normal")
-shortenButton.grid(row = 3, column = 0, pady = 20)
+shortenButton.place(x = 315, y = 130)
 
 #   Display shortened url
 
-finalUrl = Text(root,width = 42, height = 2)
-finalUrl.grid(row = 4, column = 0 , padx = 30)
+finalUrl = Label(root, text = "Your short url appears here.", fg = "white", bg = "#0e0e0d", width = 37, height = 2)
+finalUrl['font'] = getFont('Helvetica', 14, "normal")
+finalUrl.place(x = 0, y = 200)
+
 
 #   Copy Button
-copyButton = Button(root, text = "Copy", command = copySuccess)
-copyButton.grid(row = 5, column =0, pady=5, padx=50)
+copyButton = Button(root, text = "Click to copy", command = copySuccess)
+copyButton['font'] = getFont("Helvetica", 12, "normal")
+copyButton.place(x = 170, y =280)
 
 root.mainloop()
 
