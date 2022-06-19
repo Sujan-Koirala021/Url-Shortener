@@ -2,6 +2,8 @@ from tkinter import *
 import pyshorteners
 #   For font
 import tkinter.font as font
+from tkinter import messagebox
+
 
 
 root = Tk()
@@ -32,6 +34,15 @@ def reset():
     originalUrl.delete(0, "end")    #   Delete existing entry
     finalUrl.delete(1.0, END)       #   Delete existing text in textbox
     
+def copySuccess():
+    messagebox.showinfo("Copy Success", "Copied Successfully!!")    #   Show success message box
+    clip = Tk()                                                     #   Create small window
+    clip.withdraw()                                                 #   Withdraw value
+    clip.clipboard_clear()                                          #   Clear clipboard in Tk clipboard
+    clip.clipboard_append(finalUrl.get(1.0, END))                   #   Get shortened url copied to clipboard
+    clip.destroy()                                                  #   Destroy this and all descendent widgets
+    
+    #   Now you can paste it anywhere
 
 
 #   Return font attributes to apply
@@ -53,7 +64,7 @@ originalUrl.grid(row =1, column = 0, padx=5)
 
 resetButton = Button(root, text = "Reset", command = reset)
 resetButton['font'] = getFont("Helvetica", 12, "normal")
-resetButton.grid(row = 5, column = 0, pady = 50)
+resetButton.grid(row = 6, column = 0, pady = 20)
 
 
 #   Make shorten button
@@ -64,8 +75,12 @@ shortenButton.grid(row = 3, column = 0, pady = 20)
 
 #   Display shortened url
 
-finalUrl = Text(root,width = 40, height = 5)
+finalUrl = Text(root,width = 42, height = 2)
 finalUrl.grid(row = 4, column = 0 , padx = 30)
+
+#   Copy Button
+copyButton = Button(root, text = "Copy", command = copySuccess)
+copyButton.grid(row = 5, column =0, pady=5, padx=50)
 
 root.mainloop()
 
