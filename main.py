@@ -27,6 +27,12 @@ def shortenUrl():
     #   Display shortened link to textbox   
     finalUrl.insert(END, shortUrl)
     
+#   Reset or clear previous activity
+def reset():
+    originalUrl.delete(0, "end")    #   Delete existing entry
+    finalUrl.delete(1.0, END)       #   Delete existing text in textbox
+    
+
 
 #   Return font attributes to apply
 def getFont(fontName='Helvetica', fontSize=14, fontWeight='normal'):    #   Function with default arguments
@@ -39,16 +45,22 @@ headerLabel['font'] = getFont('Helvetica', 24, "bold")
 headerLabel.grid(row = 0, column = 0)
 
 #   Make text box to paste link to be shortened
-
 originalUrl = Entry(root, width=30)
 originalUrl['font']= getFont("Helvetica", 16, "normal")
 originalUrl.grid(row =1, column = 0, padx=5)
 
+#   Make reset button
+
+resetButton = Button(root, text = "Reset", command = reset)
+resetButton['font'] = getFont("Helvetica", 12, "normal")
+resetButton.grid(row = 5, column = 0, pady = 50)
+
+
 #   Make shorten button
 
-shortenButton = Button(root, text = "Shorten Link", command = shortenUrl)
+shortenButton = Button(root, text = "Shorten", command = shortenUrl)
 shortenButton['font'] = getFont("Helvetica", 12, "normal")
-shortenButton.grid(row = 3, column = 0, padx = 50, pady = 20)
+shortenButton.grid(row = 3, column = 0, pady = 20)
 
 #   Display shortened url
 
