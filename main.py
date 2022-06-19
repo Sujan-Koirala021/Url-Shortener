@@ -4,8 +4,6 @@ import pyshorteners
 import tkinter.font as font
 from tkinter import messagebox
 
-
-
 root = Tk()
 #   Window configurations
 root.title("Url Shortener")
@@ -22,12 +20,16 @@ def shortenUrl():
     #   Accesing original url through entry
     urlName = originalUrl.get()
 
-    #   Pyshorteners Mechanism to shorten urls
-    s = pyshorteners.Shortener()
-    shortUrl = s.tinyurl.short(urlName)
-    
-    #   Display shortened link to textbox   
-    finalUrl.insert(END, shortUrl)
+    try:
+        #   Pyshorteners Mechanism to shorten urls
+        s = pyshorteners.Shortener()
+        shortUrl = s.tinyurl.short(urlName)
+        
+        #   Display shortened link to textbox   
+        finalUrl.insert(END, shortUrl)
+
+    except Exception as e:
+        messagebox.showerror("Url Shortener", e)
     
 #   Reset or clear previous activity
 def reset():
@@ -61,14 +63,11 @@ originalUrl['font']= getFont("Helvetica", 16, "normal")
 originalUrl.grid(row =1, column = 0, padx=5)
 
 #   Make reset button
-
 resetButton = Button(root, text = "Reset", command = reset)
 resetButton['font'] = getFont("Helvetica", 12, "normal")
 resetButton.grid(row = 6, column = 0, pady = 20)
 
-
 #   Make shorten button
-
 shortenButton = Button(root, text = "Shorten", command = shortenUrl)
 shortenButton['font'] = getFont("Helvetica", 12, "normal")
 shortenButton.grid(row = 3, column = 0, pady = 20)
