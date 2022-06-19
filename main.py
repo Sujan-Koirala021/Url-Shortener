@@ -1,14 +1,23 @@
+'''
+URL Shortener
+Make urls short using the most famous URL Shorteners availables.
+June 18, 2022
+
+'''
+
+
 from tkinter import *
 import pyshorteners
-#   For font
-import tkinter.font as font
+import tkinter.font as font     
 from tkinter import messagebox
 
 root = Tk()
+
 #   Window configurations
 root.title("Url Shortener")
 root.geometry('400x350')
-root.configure(background="#0e1724")
+root.configure(background="#0e1724")        #   Set background
+root.iconbitmap("images/urlIcon.ico")           #   Set icon image
 
 #   Resize to other screen size set to false
 root.resizable(False, False)
@@ -32,12 +41,12 @@ def shortenUrl():
         print(shortUrl)
 
     except Exception as e:
-        messagebox.showerror("Url Shortener", e)
+        messagebox.showerror("Url Shortener", e)                    #   Message box to display error
     
 #   Reset or clear previous activity
 def reset():
-    originalUrl.delete(0, "end")    #   Delete existing entry
-    finalUrl.config(text = "Your short url appears here.")      #   Delete existing text in label
+    originalUrl.delete(0, "end")                                    #   Delete existing entry
+    finalUrl.config(text = "Your short url appears here.")          #   Delete existing text in label
     
 def copySuccess():
     messagebox.showinfo("Copy Success", "Copied Successfully!!")    #   Show success message box
